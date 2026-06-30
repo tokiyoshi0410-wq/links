@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>時吉 悠介 — Works</title>
+<meta name="description" content="時吉 悠介 / Developer. アプリ・Webサービス・書籍をつくっています。" />
+
+<meta property="og:title" content="時吉 悠介 — Works" />
+<meta property="og:description" content="アプリ・Webサービス・書籍をつくっています。" />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@500;700;900&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #04050c;
+    --cyan: #2bf5ff;
+    --violet: #9d6bff;
+    --magenta: #ff4ecd;
+    --text: #eaf2ff;
+    --dim: rgba(202, 216, 255, 0.55);
+    --line: rgba(120, 160, 255, 0.16);
+    --glass: rgba(20, 28, 56, 0.45);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    font-family: "Space Grotesk", "Zen Kaku Gothic New", system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    padding: 64px 20px 56px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ===== 背景: ドリフトするオーロラ + グリッド + 星 ===== */
+  .bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+  .aurora {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    opacity: 0.55;
+    mix-blend-mode: screen;
+  }
+  .aurora.a1 { width: 60vw; height: 60vw; top: -18%; left: -15%;
+    background: radial-gradient(circle, var(--cyan), transparent 65%);
+    animation: drift1 16s ease-in-out infinite; }
+  .aurora.a2 { width: 55vw; height: 55vw; top: -8%; right: -18%;
+    background: radial-gradient(circle, var(--violet), transparent 65%);
+    animation: drift2 19s ease-in-out infinite; }
+  .aurora.a3 { width: 65vw; height: 65vw; bottom: -25%; left: 10%;
+    background: radial-gradient(circle, var(--magenta), transparent 65%);
+    opacity: 0.4;
+    animation: drift3 22s ease-in-out infinite; }
+
+  @keyframes drift1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(8%,6%)} }
+  @keyframes drift2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-7%,9%)} }
+  @keyframes drift3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(5%,-7%)} }
+
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 30%, transparent 75%);
+    opacity: 0.7;
+  }
+  .stars {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1.4px 1.4px at 18% 14%, #fff 50%, transparent),
+      radial-gradient(1px 1px at 72% 9%, #cfe 50%, transparent),
+      radial-gradient(1.4px 1.4px at 88% 22%, #fff 50%, transparent),
+      radial-gradient(1px 1px at 40% 26%, #fff 50%, transparent),
+      radial-gradient(1px 1px at 9% 40%, #bdf 50%, transparent),
+      radial-gradient(1.2px 1.2px at 60% 33%, #fff 50%, transparent);
+    opacity: 0.6;
+    animation: twinkle 5s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle { from{opacity:.35} to{opacity:.75} }
+
+  .wrap { width: 100%; max-width: 480px; position: relative; z-index: 1; }
+
+  /* ===== ヘッダー ===== */
+  .avatar-wrap {
+    width: 108px; height: 108px; margin: 0 auto 22px;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .ring {
+    position: absolute; inset: 0; border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--cyan), var(--violet), var(--magenta), var(--cyan));
+    filter: blur(2px);
+    animation: spin 6s linear infinite;
+    opacity: 0.9;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .hex {
+    position: relative; width: 92px; height: 92px;
+    background: linear-gradient(160deg, #0b1230, #060914);
+    clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900;
+    font-size: 42px;
+    color: #fff;
+    text-shadow: 0 0 14px var(--cyan);
+  }
+
+  .name {
+    text-align: center;
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 900; font-size: 30px; letter-spacing: 0.14em;
+    background: linear-gradient(90deg, #fff, var(--cyan));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .handle {
+    text-align: center;
+    font-family: "Orbitron", sans-serif;
+    font-weight: 500; font-size: 12px; letter-spacing: 0.42em;
+    color: var(--cyan); margin-top: 10px; text-indent: 0.42em;
+    text-shadow: 0 0 12px rgba(43,245,255,0.5);
+  }
+  .tagline {
+    text-align: center; color: var(--dim);
+    font-size: 13px; margin-top: 12px; line-height: 1.6; letter-spacing: 0.03em;
+  }
+
+  /* ===== セクション見出し ===== */
+  .section-label {
+    margin: 32px 4px 14px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.28em;
+    color: var(--dim);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--cyan); box-shadow: 0 0 10px var(--cyan); flex: 0 0 auto;
+  }
+  .section-label::after {
+    content: ""; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+
+  /* ===== リンクカード ===== */
+  .card {
+    display: flex; align-items: center; gap: 15px;
+    width: 100%; padding: 15px 18px; margin-bottom: 13px;
+    border-radius: 14px;
+    background: var(--glass);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    color: var(--text); text-decoration: none;
+    position: relative; overflow: hidden;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  /* 左の発光アクセントバー */
+  .card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(var(--cyan), var(--violet));
+    opacity: 0; transition: opacity .2s ease;
+    box-shadow: 0 0 12px var(--cyan);
+  }
+  /* HUD 風コーナー */
+  .card::after {
+    content: ""; position: absolute; top: 8px; right: 10px;
+    width: 10px; height: 10px;
+    border-top: 1px solid var(--line); border-right: 1px solid var(--line);
+    opacity: 0.7;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(43,245,255,0.55);
+    box-shadow: 0 0 0 1px rgba(43,245,255,0.25), 0 12px 34px rgba(8,12,40,0.6),
+                0 0 28px rgba(43,245,255,0.18);
+  }
+  .card:hover::before { opacity: 1; }
+  .card:active { transform: translateY(-1px) scale(0.99); }
+
+  .card .icon {
+    flex: 0 0 46px; height: 46px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center; font-size: 23px;
+    background: radial-gradient(circle at 30% 25%, rgba(43,245,255,0.18), rgba(157,107,255,0.12));
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .card .icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card .icon.app { background: none; border-color: rgba(255,255,255,0.14); }
+  .card .body { flex: 1; min-width: 0; }
+  .card .title { font-weight: 700; font-size: 15.5px; letter-spacing: 0.02em; }
+  .card .desc { font-size: 12px; color: var(--dim); margin-top: 3px; line-height: 1.45; }
+  .card .arrow {
+    color: var(--cyan); font-size: 20px; flex: 0 0 auto;
+    font-family: "Orbitron", sans-serif;
+    transition: transform .2s ease;
+  }
+  .card:hover .arrow { transform: translateX(4px); }
+
+  /* 準備中 */
+  .card.soon { opacity: 0.5; cursor: default; }
+  .card.soon:hover { transform: none; border-color: var(--line); box-shadow: none; }
+  .card.soon:hover::before { opacity: 0; }
+  .card.soon .arrow { font-size: 0; }
+  .card.soon .arrow::after {
+    content: "SOON"; font-family: "Orbitron", sans-serif; font-size: 9px; letter-spacing: 0.15em;
+    border: 1px solid var(--line); border-radius: 999px; padding: 3px 9px; color: var(--dim);
+  }
+
+  /* ===== SNS ===== */
+  .socials { display: flex; justify-content: center; gap: 16px; margin-top: 30px; }
+  .socials a {
+    width: 48px; height: 48px; border-radius: 13px;
+    background: var(--glass); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text); text-decoration: none;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .socials a:hover {
+    transform: translateY(-3px);
+    border-color: rgba(43,245,255,0.55);
+    box-shadow: 0 0 22px rgba(43,245,255,0.25);
+  }
+  .socials svg { width: 20px; height: 20px; fill: currentColor; }
+
+  .footer {
+    text-align: center; margin-top: 40px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 10px; letter-spacing: 0.3em; color: var(--dim);
+  }
+</style>
+</head>
+<body>
+  <div class="bg">
+    <div class="aurora a1"></div>
+    <div class="aurora a2"></div>
+    <div class="aurora a3"></div>
+    <div class="grid"></div>
+    <div class="stars"></div>
+  </div>
+
+  <main class="wrap">
+    <div class="avatar-wrap">
+      <div class="ring"></div>
+      <div class="hex">時</div>
+    </div>
+    <h1 class="name">時吉 悠介</h1>
+    <p class="handle">TOKIYOSHI YUSUKE</p>
+    <p class="tagline">Developer / アプリ・Web・書籍をつくっています</p>
+
+    <!-- ====== アプリ ====== -->
+    <div class="section-label">APPS</div>
+
+    <a class="card" href="https://apps.apple.com/app/id6777024010" target="_blank" rel="noopener">
+      <span class="icon app"><img src="assets/icon-hidamari.jpg" alt="ひだまり アイコン" /></span>
+      <span class="body">
+        <span class="title">ひだまり</span>
+        <span class="desc">周辺の建物の影まで計算する"本当の日当たり"マップ</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="https://apps.apple.com/app/id6777624623" target="_blank" rel="noopener">
+      <span class="icon app"><img src="assets/icon-arpinnavi.jpg" alt="ARピンナビ アイコン" /></span>
+      <span class="body">
+        <span class="title">ARピンナビ</span>
+        <span class="desc">カメラをかざすと目的地の方向と距離を AR 表示</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="https://apps.apple.com/jp/app/id6769671951" target="_blank" rel="noopener">
+      <span class="icon app"><img src="assets/icon-lokashare.jpg" alt="LokaShare アイコン" /></span>
+      <span class="body">
+        <span class="title">LokaShare</span>
+        <span class="desc">友達と位置をシェアする位置共有 SNS アプリ</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <!-- ====== Web ====== -->
+    <div class="section-label">WEB</div>
+
+    <a class="card" href="https://orbit-tracker.pages.dev/" target="_blank" rel="noopener">
+      <span class="icon">🛰️</span>
+      <span class="body">
+        <span class="title">Orbit Tracker</span>
+        <span class="desc">人工衛星・ISS を 3D 地球儀で俯瞰するブラウザアプリ</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <!-- ====== 出版 ====== -->
+    <div class="section-label">BOOKS</div>
+
+    <a class="card" href="https://www.amazon.co.jp/dp/B0C2VDRNT7" target="_blank" rel="noopener">
+      <span class="icon">📖</span>
+      <span class="body">
+        <span class="title">人生が変わる名言集</span>
+        <span class="desc">偉人たちの名言と感動のストーリー（Kindle）</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="https://www.amazon.co.jp/dp/B0BZK7M59H" target="_blank" rel="noopener">
+      <span class="icon">👑</span>
+      <span class="body">
+        <span class="title">リーダーシップ成功法則</span>
+        <span class="desc">人を動かし、組織を変える 10 の鍵（Kindle）</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="https://www.amazon.co.jp/dp/B0BZM436FB" target="_blank" rel="noopener">
+      <span class="icon">🤖</span>
+      <span class="body">
+        <span class="title">AIの未来図</span>
+        <span class="desc">人工知能の進化と社会へのインパクト（Kindle）</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <!-- ====== ソフトウェア ====== -->
+    <div class="section-label">SOFTWARE</div>
+
+    <a class="card" href="https://tokiyoshi0410-wq.github.io/mimiutsushi-lp/" target="_blank" rel="noopener">
+      <span class="icon">🎙️</span>
+      <span class="body">
+        <span class="title">ミミウツシ</span>
+        <span class="desc">完全ローカルで動く爆速 AI 議事録ソフト（Windows）</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <!-- ====== SNS ====== -->
+    <div class="socials">
+      <a href="https://x.com/TokiLABO" target="_blank" rel="noopener" aria-label="X (Twitter)">
+        <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+    </div>
+
+    <p class="footer">© 2026 TOKIYOSHI YUSUKE</p>
+  </main>
+</body>
+</html>
