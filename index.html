@@ -16,14 +16,16 @@
 
 <style>
   :root {
-    --bg: #04050c;
-    --cyan: #2bf5ff;
-    --violet: #9d6bff;
-    --magenta: #ff4ecd;
-    --text: #eaf2ff;
-    --dim: rgba(202, 216, 255, 0.55);
-    --line: rgba(120, 160, 255, 0.16);
-    --glass: rgba(20, 28, 56, 0.45);
+    --bg: #0a0603;
+    --cyan: #ff7a1a;
+    --violet: #ffb347;
+    --magenta: #ff3d1f;
+    --turquoise: #2dd8c8;
+    --turquoise-line: rgba(45, 216, 200, 0.4);
+    --text: #fff3e8;
+    --dim: rgba(255, 214, 170, 0.55);
+    --line: rgba(255, 150, 60, 0.18);
+    --glass: rgba(46, 24, 10, 0.45);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -55,7 +57,7 @@
     background: radial-gradient(circle, var(--cyan), transparent 65%);
     animation: drift1 16s ease-in-out infinite; }
   .aurora.a2 { width: 55vw; height: 55vw; top: -8%; right: -18%;
-    background: radial-gradient(circle, var(--violet), transparent 65%);
+    background: radial-gradient(circle, var(--turquoise), transparent 65%);
     animation: drift2 19s ease-in-out infinite; }
   .aurora.a3 { width: 65vw; height: 65vw; bottom: -25%; left: 10%;
     background: radial-gradient(circle, var(--magenta), transparent 65%);
@@ -80,15 +82,34 @@
     position: absolute; inset: 0;
     background-image:
       radial-gradient(1.4px 1.4px at 18% 14%, #fff 50%, transparent),
-      radial-gradient(1px 1px at 72% 9%, #cfe 50%, transparent),
+      radial-gradient(1px 1px at 72% 9%, #fed 50%, transparent),
       radial-gradient(1.4px 1.4px at 88% 22%, #fff 50%, transparent),
       radial-gradient(1px 1px at 40% 26%, #fff 50%, transparent),
-      radial-gradient(1px 1px at 9% 40%, #bdf 50%, transparent),
+      radial-gradient(1px 1px at 9% 40%, #fca 50%, transparent),
       radial-gradient(1.2px 1.2px at 60% 33%, #fff 50%, transparent);
     opacity: 0.6;
     animation: twinkle 5s ease-in-out infinite alternate;
   }
   @keyframes twinkle { from{opacity:.35} to{opacity:.75} }
+
+  /* 流れ星 */
+  .meteor {
+    position: absolute; top: -10%;
+    width: 2px; height: 90px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(45,216,200,0.55) 45%, transparent);
+    border-radius: 2px;
+    opacity: 0;
+    animation: meteorFall linear infinite;
+  }
+  .meteor.m1 { left: 12%; height: 90px; animation-duration: 9s; animation-delay: 0.5s; }
+  .meteor.m2 { left: 52%; height: 65px; animation-duration: 11s; animation-delay: 4.2s; }
+  .meteor.m3 { left: 82%; height: 120px; animation-duration: 8s; animation-delay: 7.6s; }
+  @keyframes meteorFall {
+    0% { transform: translate(0,0) rotate(215deg); opacity: 0; }
+    4% { opacity: 1; }
+    18% { opacity: 0; }
+    100% { transform: translate(-280px, 360px) rotate(215deg); opacity: 0; }
+  }
 
   .wrap { width: 100%; max-width: 480px; position: relative; z-index: 1; }
 
@@ -99,7 +120,7 @@
   }
   .ring {
     position: absolute; inset: 0; border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--cyan), var(--violet), var(--magenta), var(--cyan));
+    background: conic-gradient(from 0deg, var(--cyan), var(--turquoise), var(--magenta), var(--cyan));
     filter: blur(2px);
     animation: spin 6s linear infinite;
     opacity: 0.9;
@@ -107,20 +128,25 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   .hex {
     position: relative; width: 92px; height: 92px;
-    background: linear-gradient(160deg, #0b1230, #060914);
+    background: linear-gradient(160deg, #241207, #0e0603);
     clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     display: flex; align-items: center; justify-content: center;
-    font-family: "Zen Kaku Gothic New", sans-serif; font-weight: 900;
-    font-size: 42px;
-    color: #fff;
-    text-shadow: 0 0 14px var(--cyan);
   }
+  .hex svg {
+    width: 52px; height: 52px;
+    filter: drop-shadow(0 0 10px rgba(45,216,200,0.55));
+    animation: iconSpin 16s linear infinite reverse;
+    transform-origin: 50% 50%;
+  }
+  @keyframes iconSpin { to { transform: rotate(360deg); } }
+  .hex .core { animation: pulse 3.2s ease-in-out infinite; transform-origin: center; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.55; } }
 
   .name {
     text-align: center;
     font-family: "Zen Kaku Gothic New", sans-serif;
     font-weight: 900; font-size: 30px; letter-spacing: 0.14em;
-    background: linear-gradient(90deg, #fff, var(--cyan));
+    background: linear-gradient(90deg, #fff, var(--cyan), var(--turquoise));
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .handle {
@@ -128,7 +154,7 @@
     font-family: "Orbitron", sans-serif;
     font-weight: 500; font-size: 12px; letter-spacing: 0.42em;
     color: var(--cyan); margin-top: 10px; text-indent: 0.42em;
-    text-shadow: 0 0 12px rgba(43,245,255,0.5);
+    text-shadow: 0 0 12px rgba(255,122,26,0.5);
   }
   .tagline {
     text-align: center; color: var(--dim);
@@ -145,7 +171,12 @@
   }
   .section-label::before {
     content: ""; width: 7px; height: 7px; border-radius: 50%;
-    background: var(--cyan); box-shadow: 0 0 10px var(--cyan); flex: 0 0 auto;
+    background: var(--cyan); flex: 0 0 auto;
+    animation: dotPulse 2.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse {
+    0%,100% { box-shadow: 0 0 10px var(--cyan); background: var(--cyan); }
+    50% { box-shadow: 0 0 12px var(--turquoise); background: var(--turquoise); }
   }
   .section-label::after {
     content: ""; flex: 1; height: 1px;
@@ -157,19 +188,22 @@
     display: flex; align-items: center; gap: 15px;
     width: 100%; padding: 15px 18px; margin-bottom: 13px;
     border-radius: 14px;
-    background: var(--glass);
+    background-color: var(--glass);
+    background-image: linear-gradient(120deg, transparent 35%, rgba(45,216,200,0.16) 50%, transparent 65%);
+    background-size: 260% 260%;
+    background-position: 120% 120%;
     border: 1px solid var(--line);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     color: var(--text); text-decoration: none;
     position: relative; overflow: hidden;
-    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+    transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background-position .7s ease;
   }
   /* 左の発光アクセントバー */
   .card::before {
     content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
-    background: linear-gradient(var(--cyan), var(--violet));
+    background: linear-gradient(var(--cyan), var(--turquoise));
     opacity: 0; transition: opacity .2s ease;
-    box-shadow: 0 0 12px var(--cyan);
+    box-shadow: 0 0 12px var(--turquoise);
   }
   /* HUD 風コーナー */
   .card::after {
@@ -177,20 +211,23 @@
     width: 10px; height: 10px;
     border-top: 1px solid var(--line); border-right: 1px solid var(--line);
     opacity: 0.7;
+    transition: border-color .2s ease;
   }
   .card:hover {
     transform: translateY(-3px);
-    border-color: rgba(43,245,255,0.55);
-    box-shadow: 0 0 0 1px rgba(43,245,255,0.25), 0 12px 34px rgba(8,12,40,0.6),
-                0 0 28px rgba(43,245,255,0.18);
+    background-position: -20% -20%;
+    border-color: rgba(45,216,200,0.6);
+    box-shadow: 0 0 0 1px rgba(45,216,200,0.3), 0 12px 34px rgba(20,8,4,0.6),
+                0 0 30px rgba(45,216,200,0.28);
   }
   .card:hover::before { opacity: 1; }
+  .card:hover::after { border-color: var(--turquoise-line); }
   .card:active { transform: translateY(-1px) scale(0.99); }
 
   .card .icon {
     flex: 0 0 46px; height: 46px; border-radius: 11px;
     display: flex; align-items: center; justify-content: center; font-size: 23px;
-    background: radial-gradient(circle at 30% 25%, rgba(43,245,255,0.18), rgba(157,107,255,0.12));
+    background: radial-gradient(circle at 30% 25%, rgba(255,122,26,0.18), rgba(255,179,71,0.12));
     border: 1px solid var(--line);
     overflow: hidden;
   }
@@ -202,9 +239,9 @@
   .card .arrow {
     color: var(--cyan); font-size: 20px; flex: 0 0 auto;
     font-family: "Orbitron", sans-serif;
-    transition: transform .2s ease;
+    transition: transform .2s ease, color .2s ease;
   }
-  .card:hover .arrow { transform: translateX(4px); }
+  .card:hover .arrow { transform: translateX(4px); color: var(--turquoise); }
 
   /* 準備中 */
   .card.soon { opacity: 0.5; cursor: default; }
@@ -227,8 +264,9 @@
   }
   .socials a:hover {
     transform: translateY(-3px);
-    border-color: rgba(43,245,255,0.55);
-    box-shadow: 0 0 22px rgba(43,245,255,0.25);
+    border-color: rgba(45,216,200,0.6);
+    box-shadow: 0 0 22px rgba(45,216,200,0.3);
+    color: var(--turquoise);
   }
   .socials svg { width: 20px; height: 20px; fill: currentColor; }
 
@@ -246,12 +284,32 @@
     <div class="aurora a3"></div>
     <div class="grid"></div>
     <div class="stars"></div>
+    <div class="meteor m1"></div>
+    <div class="meteor m2"></div>
+    <div class="meteor m3"></div>
   </div>
 
   <main class="wrap">
     <div class="avatar-wrap">
       <div class="ring"></div>
-      <div class="hex">時</div>
+      <div class="hex">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="coreGrad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#2dd8c8" />
+              <stop offset="1" stop-color="#ff7a1a" />
+            </linearGradient>
+          </defs>
+          <polygon points="24,3 42,13.5 42,34.5 24,45 6,34.5 6,13.5" stroke="url(#coreGrad)" stroke-width="1.4" opacity="0.85" />
+          <line x1="24" y1="24" x2="24" y2="9" stroke="url(#coreGrad)" stroke-width="1.2" />
+          <line x1="24" y1="24" x2="36.5" y2="31" stroke="url(#coreGrad)" stroke-width="1.2" />
+          <line x1="24" y1="24" x2="11.5" y2="31" stroke="url(#coreGrad)" stroke-width="1.2" />
+          <circle cx="24" cy="9" r="2.2" fill="#2dd8c8" />
+          <circle cx="36.5" cy="31" r="2.2" fill="#ffb347" />
+          <circle cx="11.5" cy="31" r="2.2" fill="#ff7a1a" />
+          <circle class="core" cx="24" cy="24" r="5.5" fill="url(#coreGrad)" />
+        </svg>
+      </div>
     </div>
     <h1 class="name">時吉 悠介</h1>
     <p class="handle">TOKIYOSHI YUSUKE</p>
@@ -304,6 +362,15 @@
       <span class="body">
         <span class="title">Stellar Voyage</span>
         <span class="desc">太陽系から観測可能な宇宙まで、実在の星を旅する 3D シミュレータ</span>
+      </span>
+      <span class="arrow">›</span>
+    </a>
+
+    <a class="card" href="https://tokiyoshi0410-wq.github.io/midoku-zero/" target="_blank" rel="noopener">
+      <span class="icon">📭</span>
+      <span class="body">
+        <span class="title">未読ゼロ</span>
+        <span class="desc">Gmail の未読メールをワンタップで一括既読化する web アプリ</span>
       </span>
       <span class="arrow">›</span>
     </a>
