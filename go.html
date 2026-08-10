@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>App Store を開いています…</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Zen Kaku Gothic New", system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    background: #0a0603; color: #fff3e8;
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 22px; padding: 32px 24px;
+    text-align: center;
+  }
+  .spinner {
+    width: 38px; height: 38px; border-radius: 50%;
+    border: 3px solid rgba(255, 150, 60, 0.25);
+    border-top-color: #ff7a1a;
+    animation: spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  p { font-size: 14px; color: rgba(255, 214, 170, 0.7); line-height: 1.7; }
+  a.manual {
+    display: inline-block; margin-top: 4px; padding: 14px 26px;
+    border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px;
+    background: linear-gradient(135deg, #ff7a1a, #ffb347); color: #1a0d04;
+  }
+  a.back { font-size: 12px; color: rgba(255, 214, 170, 0.5); text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <p>App Store を開いています…</p>
+  <!-- 自動転送が働かなかった場合の手動リンク。JS が URL を差し込む -->
+  <a class="manual" id="manual" href="https://apps.apple.com/jp/">App Store を開く</a>
+  <a class="back" href="./">← リンク集に戻る</a>
+
+  <script>
+    // Instagram 等のアプリ内ブラウザは、apps.apple.com への「タップでの遷移」を
+    // 遮断することがある (iOS の Universal Link の受け渡しが止められるため)。
+    // 一方で、同一サイト内の普通のページへの遷移は通り、そこからの JS 転送も通る。
+    // そこで index.html からはこの中継ページへ飛ばし、ここで App Store へ転送する。
+    // JS 転送は Universal Link として扱われないので、長押しで開いた時と同じ経路になる。
+    //
+    // 任意の URL へ飛ばせるようにすると転送先を悪用されうるので、
+    // 飛び先は下のホワイトリストに限定する。
+    var APPS = {
+      hidamari:  'https://apps.apple.com/jp/app/id6777024010',
+      arpinnavi: 'https://apps.apple.com/jp/app/id6777624623',
+      lokashare: 'https://apps.apple.com/jp/app/id6769671951'
+    };
+
+    var key = new URLSearchParams(location.search).get('app');
+    var url = Object.prototype.hasOwnProperty.call(APPS, key) ? APPS[key] : null;
+
+    if (url) {
+      document.getElementById('manual').setAttribute('href', url);
+      // replace にして履歴を汚さない (戻るでこのページに戻らないように)
+      location.replace(url);
+    } else {
+      document.querySelector('.spinner').style.display = 'none';
+      document.querySelector('p').textContent = 'リンクが見つかりませんでした。';
+      document.getElementById('manual').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
