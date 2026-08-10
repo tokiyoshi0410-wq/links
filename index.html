@@ -460,23 +460,12 @@
     <p class="footer">© 2026 TOKIYOSHI YUSUKE</p>
   </main>
 
-  <script>
-    // Instagram 等のアプリ内ブラウザは apps.apple.com への「タップでの遷移」を
-    // 遮断することがある（長押しの「リンクを開く」は通るので <a> 自体は生きている）。
-    // https:// はブラウザが自分で開くべきページと判断されて止められるが、
-    // itms-apps:// はブラウザが描画できないスキームなので OS に処理が渡り、
-    // App Store アプリが直接起動する。
-    //
-    // 重要: click を preventDefault して JS で飛ばしてはいけない。
-    // それをやると「ユーザー操作による遷移」でなくなり Universal Link が壊れる。
-    // ここでは href 属性そのものを書き換えるだけなので、タップは通常のリンク操作のまま。
-    (function () {
-      if (!/iPad|iPhone|iPod/.test(navigator.userAgent)) return;
-      document.querySelectorAll('a[href^="https://apps.apple.com/"]').forEach(function (a) {
-        a.dataset.httpsHref = a.getAttribute('href');
-        a.setAttribute('href', a.getAttribute('href').replace(/^https:\/\//, 'itms-apps://'));
-      });
-    })();
-  </script>
+  <!--
+    リンクは素の <a href> のままにする。
+    apps.apple.com は iOS の Universal Link で、OS が横取りして App Store を
+    開く。これは「ユーザーが実際にリンクをタップした」ナビゲーションでのみ
+    成立し、JS の window.location.href による遷移では成立しない。
+    そのため click を preventDefault して JS で飛ばす実装は入れてはいけない。
+  -->
 </body>
 </html>
