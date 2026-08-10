@@ -4,65 +4,138 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex" />
-<title>App Store を開いています…</title>
+<title>App Store を開く</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: "Zen Kaku Gothic New", system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
     background: #0a0603; color: #fff3e8;
     min-height: 100vh; display: flex; flex-direction: column;
-    align-items: center; justify-content: center; gap: 22px; padding: 32px 24px;
-    text-align: center;
+    align-items: center; justify-content: center; gap: 20px; padding: 40px 24px;
+    text-align: center; line-height: 1.7;
   }
+  .wrap { width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
   .spinner {
-    width: 38px; height: 38px; border-radius: 50%;
-    border: 3px solid rgba(255, 150, 60, 0.25);
-    border-top-color: #ff7a1a;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 3px solid rgba(255, 150, 60, 0.25); border-top-color: #ff7a1a;
     animation: spin .8s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  p { font-size: 14px; color: rgba(255, 214, 170, 0.7); line-height: 1.7; }
-  a.manual {
-    display: inline-block; margin-top: 4px; padding: 14px 26px;
-    border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 15px;
+
+  .app-name { font-size: 19px; font-weight: 900; letter-spacing: 0.04em; }
+  .lead { font-size: 13.5px; color: rgba(255, 214, 170, 0.72); }
+
+  .btn {
+    display: block; width: 100%; padding: 16px 20px;
+    border-radius: 13px; text-decoration: none; font-weight: 700; font-size: 16px;
     background: linear-gradient(135deg, #ff7a1a, #ffb347); color: #1a0d04;
+    border: none; cursor: pointer; font-family: inherit;
   }
-  a.back { font-size: 12px; color: rgba(255, 214, 170, 0.5); text-decoration: none; }
+  .btn.sub {
+    background: rgba(46, 24, 10, 0.6); color: #fff3e8;
+    border: 1px solid rgba(255, 150, 60, 0.3); font-size: 14px; padding: 13px 20px;
+  }
+
+  .hint {
+    width: 100%; text-align: left; font-size: 12.5px;
+    color: rgba(255, 214, 170, 0.6);
+    background: rgba(46, 24, 10, 0.45); border: 1px solid rgba(255, 150, 60, 0.18);
+    border-radius: 12px; padding: 14px 16px;
+  }
+  .hint b { color: #ffb347; font-weight: 700; }
+  .url {
+    width: 100%; font-size: 11.5px; word-break: break-all;
+    color: rgba(255, 214, 170, 0.5);
+    background: rgba(0,0,0,0.3); border-radius: 9px; padding: 10px 12px;
+  }
+  .back { font-size: 12px; color: rgba(255, 214, 170, 0.45); text-decoration: none; }
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
-  <div class="spinner"></div>
-  <p>App Store を開いています…</p>
-  <!-- 自動転送が働かなかった場合の手動リンク。JS が URL を差し込む -->
-  <a class="manual" id="manual" href="https://apps.apple.com/jp/">App Store を開く</a>
-  <a class="back" href="./">← リンク集に戻る</a>
+  <div class="wrap">
+    <!-- 転送を試している間の表示 -->
+    <div id="loading">
+      <div class="spinner"></div>
+      <p class="lead" style="margin-top:16px">App Store を開いています…</p>
+    </div>
+
+    <!-- 自動で開けなかった場合の案内 -->
+    <div id="fallback" class="wrap hidden">
+      <div class="app-name" id="appName">App Store</div>
+      <p class="lead" id="lead">下のボタンで開かない場合は、<br>ブラウザで開くと確実です。</p>
+
+      <a class="btn" id="openBtn" href="https://apps.apple.com/jp/">App Store を開く</a>
+
+      <div class="hint" id="hint">
+        <b>開かないときは</b><br>
+        Instagram などのアプリ内ブラウザは App Store を開けないことがあります。
+        画面の <b>…</b> メニューから <b>「ブラウザで開く」</b>（Safari で開く）を選んでから、
+        もう一度お試しください。
+      </div>
+
+      <button class="btn sub" id="copyBtn">リンクをコピー</button>
+      <div class="url" id="urlText"></div>
+    </div>
+
+    <a class="back" href="./">← リンク集に戻る</a>
+  </div>
 
   <script>
-    // Instagram 等のアプリ内ブラウザは、apps.apple.com への「タップでの遷移」を
-    // 遮断することがある (iOS の Universal Link の受け渡しが止められるため)。
-    // 一方で、同一サイト内の普通のページへの遷移は通り、そこからの JS 転送も通る。
-    // そこで index.html からはこの中継ページへ飛ばし、ここで App Store へ転送する。
-    // JS 転送は Universal Link として扱われないので、長押しで開いた時と同じ経路になる。
+    // Instagram 等のアプリ内ブラウザは apps.apple.com への遷移を経路によらず
+    // 拒否することがある (タップ・JS 転送のいずれも通らない)。
+    // ここでは まず転送を試し、開けなかった場合に手動の導線と案内を出す。
     //
-    // 任意の URL へ飛ばせるようにすると転送先を悪用されうるので、
-    // 飛び先は下のホワイトリストに限定する。
+    // 飛び先を自由に指定できるとリダイレクトを悪用されるので、
+    // 下のホワイトリストに限定する。
     var APPS = {
-      hidamari:  'https://apps.apple.com/jp/app/id6777024010',
-      arpinnavi: 'https://apps.apple.com/jp/app/id6777624623',
-      lokashare: 'https://apps.apple.com/jp/app/id6769671951'
+      hidamari:  { name: 'ひだまり',    url: 'https://apps.apple.com/jp/app/id6777024010' },
+      arpinnavi: { name: 'ARピンナビ',  url: 'https://apps.apple.com/jp/app/id6777624623' },
+      lokashare: { name: 'LokaShare',  url: 'https://apps.apple.com/jp/app/id6769671951' }
     };
 
     var key = new URLSearchParams(location.search).get('app');
-    var url = Object.prototype.hasOwnProperty.call(APPS, key) ? APPS[key] : null;
+    var app = Object.prototype.hasOwnProperty.call(APPS, key) ? APPS[key] : null;
 
-    if (url) {
-      document.getElementById('manual').setAttribute('href', url);
-      // replace にして履歴を汚さない (戻るでこのページに戻らないように)
-      location.replace(url);
+    var loading  = document.getElementById('loading');
+    var fallback = document.getElementById('fallback');
+
+    function showFallback() {
+      loading.classList.add('hidden');
+      fallback.classList.remove('hidden');
+    }
+
+    if (!app) {
+      document.getElementById('appName').textContent = 'リンクが見つかりません';
+      ['lead', 'openBtn', 'hint', 'copyBtn'].forEach(function (id) {
+        document.getElementById(id).classList.add('hidden');
+      });
+      showFallback();
     } else {
-      document.querySelector('.spinner').style.display = 'none';
-      document.querySelector('p').textContent = 'リンクが見つかりませんでした。';
-      document.getElementById('manual').style.display = 'none';
+      document.getElementById('appName').textContent = app.name;
+      document.getElementById('openBtn').setAttribute('href', app.url);
+      document.getElementById('urlText').textContent = app.url;
+
+      document.getElementById('copyBtn').addEventListener('click', function () {
+        var btn = this;
+        function done() { btn.textContent = 'コピーしました'; setTimeout(function () { btn.textContent = 'リンクをコピー'; }, 1800); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(app.url).then(done, done);
+        } else {
+          // clipboard API が使えない環境向けの退避策
+          var ta = document.createElement('textarea');
+          ta.value = app.url; document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); } catch (e) {}
+          document.body.removeChild(ta); done();
+        }
+      });
+
+      // まず自動転送を試す
+      location.replace(app.url);
+
+      // 転送できていれば このページは破棄されるので下は動かない。
+      // 残っている = 遮断されたということなので、手動の導線を出す。
+      setTimeout(showFallback, 1200);
     }
   </script>
 </body>
