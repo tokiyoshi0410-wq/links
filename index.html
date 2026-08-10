@@ -456,15 +456,26 @@
   </main>
 
   <script>
-    // Instagram/Facebook 等のアプリ内ブラウザは、素の <a href> タップが
-    // 無反応になることがある（タップの視覚効果は出るが遷移しない既知の不具合）。
-    // click 時に window.location.href を明示的に設定して遷移を強制する。
+    // Instagram 等のアプリ内ブラウザでは、クイックタップの click イベントが
+    // 無反応になることがある（<a> 自体は生きているので長押しのコンテキスト
+    // メニューは出る）。touchend を click より先に拾い、どちらか一方が
+    // 発火した時点で遷移させる。navigated フラグで二重発火を防ぐ。
     document.querySelectorAll('a[href]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        var url = a.getAttribute('href');
-        if (!url) return;
-        e.preventDefault();
+      var url = a.getAttribute('href');
+      if (!url) return;
+      var navigated = false;
+      function go() {
+        if (navigated) return;
+        navigated = true;
         window.location.href = url;
+      }
+      a.addEventListener('touchend', function (e) {
+        e.preventDefault();
+        go();
+      }, { passive: false });
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        go();
       });
     });
   </script>
