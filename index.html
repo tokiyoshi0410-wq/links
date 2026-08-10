@@ -454,5 +454,19 @@
 
     <p class="footer">© 2026 TOKIYOSHI YUSUKE</p>
   </main>
+
+  <script>
+    // Instagram/Facebook 等のアプリ内ブラウザは、素の <a href> タップが
+    // 無反応になることがある（タップの視覚効果は出るが遷移しない既知の不具合）。
+    // click 時に window.location.href を明示的に設定して遷移を強制する。
+    document.querySelectorAll('a[href]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var url = a.getAttribute('href');
+        if (!url) return;
+        e.preventDefault();
+        window.location.href = url;
+      });
+    });
+  </script>
 </body>
 </html>
