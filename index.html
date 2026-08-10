@@ -131,6 +131,10 @@
     background: linear-gradient(160deg, #241207, #0e0603);
     clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .avatar-photo {
+    width: 100%; height: 100%; object-fit: cover; display: block;
   }
   .hex svg {
     width: 52px; height: 52px;
@@ -293,22 +297,7 @@
     <div class="avatar-wrap">
       <div class="ring"></div>
       <div class="hex">
-        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="coreGrad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-              <stop offset="0" stop-color="#2dd8c8" />
-              <stop offset="1" stop-color="#ff7a1a" />
-            </linearGradient>
-          </defs>
-          <polygon points="24,3 42,13.5 42,34.5 24,45 6,34.5 6,13.5" stroke="url(#coreGrad)" stroke-width="1.4" opacity="0.85" />
-          <line x1="24" y1="24" x2="24" y2="9" stroke="url(#coreGrad)" stroke-width="1.2" />
-          <line x1="24" y1="24" x2="36.5" y2="31" stroke="url(#coreGrad)" stroke-width="1.2" />
-          <line x1="24" y1="24" x2="11.5" y2="31" stroke="url(#coreGrad)" stroke-width="1.2" />
-          <circle cx="24" cy="9" r="2.2" fill="#2dd8c8" />
-          <circle cx="36.5" cy="31" r="2.2" fill="#ffb347" />
-          <circle cx="11.5" cy="31" r="2.2" fill="#ff7a1a" />
-          <circle class="core" cx="24" cy="24" r="5.5" fill="url(#coreGrad)" />
-        </svg>
+        <img class="avatar-photo" src="assets/icon-profile.jpg" alt="時吉 悠介" />
       </div>
     </div>
     <h1 class="name">時吉 悠介</h1>
@@ -318,7 +307,7 @@
     <!-- ====== アプリ ====== -->
     <div class="section-label">APPS</div>
 
-    <a class="card" href="https://apps.apple.com/app/id6777024010" target="_blank" rel="noopener">
+    <a class="card" href="https://apps.apple.com/jp/app/id6777024010" target="_blank" rel="noopener">
       <span class="icon app"><img src="assets/icon-hidamari.jpg" alt="ひだまり アイコン" /></span>
       <span class="body">
         <span class="title">ひだまり</span>
