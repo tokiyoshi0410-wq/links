@@ -89,9 +89,11 @@
     // 飛び先を自由に指定できるとリダイレクトを悪用されるので、
     // 下のホワイトリストに限定する。
     var APPS = {
+      sorascope: { name: 'SoraScope',  url: 'https://apps.apple.com/jp/app/id6771167410' },
       hidamari:  { name: 'ひだまり',    url: 'https://apps.apple.com/jp/app/id6777024010' },
       arpinnavi: { name: 'ARピンナビ',  url: 'https://apps.apple.com/jp/app/id6777624623' },
-      lokashare: { name: 'LokaShare',  url: 'https://apps.apple.com/jp/app/id6769671951' }
+      lokashare: { name: 'LokaShare',  url: 'https://apps.apple.com/jp/app/id6769671951' },
+      nokori:    { name: 'のこり',      url: 'https://apps.apple.com/jp/app/id6773126560' }
     };
 
     var key = new URLSearchParams(location.search).get('app');
