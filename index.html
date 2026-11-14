@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>時吉 悠介 — Works</title>
-<meta name="description" content="時吉 悠介 / Developer. アプリ・Webサービス・書籍をつくっています。" />
+<title>時吉 悠介 — Links</title>
+<meta name="description" content="兼業トレーダー 時吉 悠介のリンク集。FX をこれから始める人向けの記事を紹介しています。" />
 
-<meta property="og:title" content="時吉 悠介 — Works" />
-<meta property="og:description" content="アプリ・Webサービス・書籍をつくっています。" />
+<meta property="og:title" content="時吉 悠介 — Links" />
+<meta property="og:description" content="兼業トレーダー 時吉 悠介のリンク集。FX をこれから始める人向けの記事を紹介しています。" />
 <meta property="og:type" content="website" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,7 +38,7 @@
     background: var(--bg);
     display: flex;
     justify-content: center;
-    padding: 64px 20px 56px;
+    padding: 40px 16px 56px;
     position: relative;
     overflow-x: hidden;
   }
@@ -115,7 +115,7 @@
 
   /* ===== ヘッダー ===== */
   .avatar-wrap {
-    width: 108px; height: 108px; margin: 0 auto 22px;
+    width: 84px; height: 84px; margin: 0 auto 16px;
     position: relative; display: flex; align-items: center; justify-content: center;
   }
   .ring {
@@ -127,7 +127,7 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
   .hex {
-    position: relative; width: 92px; height: 92px;
+    position: relative; width: 72px; height: 72px;
     background: linear-gradient(160deg, #241207, #0e0603);
     clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
     display: flex; align-items: center; justify-content: center;
@@ -279,6 +279,82 @@
   }
   .socials svg { width: 20px; height: 20px; fill: currentColor; }
 
+  /* ===== PICK UP: 主役の記事カード ===== */
+  .pick-label {
+    margin: 28px 4px 12px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 12px; font-weight: 900; letter-spacing: 0.3em;
+    color: var(--turquoise);
+    text-shadow: 0 0 14px rgba(45,216,200,0.6);
+    text-align: center;
+  }
+  .feature {
+    display: block; position: relative; overflow: hidden;
+    padding: 22px 20px 20px; margin-bottom: 12px;
+    border-radius: 18px;
+    background:
+      linear-gradient(160deg, rgba(255,122,26,0.22), rgba(46,24,10,0.65) 45%, rgba(45,216,200,0.14));
+    border: 1px solid rgba(255,150,60,0.55);
+    box-shadow: 0 0 0 1px rgba(255,122,26,0.15), 0 14px 40px rgba(20,8,4,0.6), 0 0 36px rgba(255,122,26,0.25);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    color: var(--text); text-decoration: none;
+    -webkit-user-select: none; user-select: none;
+    -webkit-tap-highlight-color: rgba(45, 216, 200, 0.18);
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: featureGlow 3.2s ease-in-out infinite;
+  }
+  @keyframes featureGlow {
+    0%,100% { box-shadow: 0 0 0 1px rgba(255,122,26,0.15), 0 14px 40px rgba(20,8,4,0.6), 0 0 30px rgba(255,122,26,0.22); }
+    50%     { box-shadow: 0 0 0 1px rgba(45,216,200,0.3), 0 14px 40px rgba(20,8,4,0.6), 0 0 44px rgba(45,216,200,0.32); }
+  }
+  .feature:hover { transform: translateY(-3px); }
+  .feature:active { transform: scale(0.99); }
+  .feature .tags { display: flex; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .feature .tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 4px 10px; border-radius: 999px;
+    background: rgba(255,122,26,0.2); border: 1px solid rgba(255,150,60,0.5); color: #ffd2a8;
+  }
+  .feature .tag.pr { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); color: #fff; }
+  .feature .f-title, .feature .f-lead { display: block; }
+  .feature .f-title {
+    font-family: "Zen Kaku Gothic New", sans-serif;
+    font-weight: 900; font-size: 21px; line-height: 1.45; letter-spacing: 0.02em;
+  }
+  .feature .f-lead { font-size: 13.5px; color: #ffe2c6; line-height: 1.7; margin-top: 10px; }
+  .feature .points { list-style: none; margin-top: 14px; display: grid; gap: 7px; }
+  .feature .points li {
+    font-size: 13px; line-height: 1.5; padding-left: 22px; position: relative;
+  }
+  .feature .points li::before {
+    content: "✓"; position: absolute; left: 0; top: 0;
+    color: var(--turquoise); font-weight: 700;
+  }
+  .feature .cta {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 18px; padding: 15px 18px; border-radius: 12px;
+    background: linear-gradient(90deg, var(--magenta), var(--cyan));
+    color: #fff; font-weight: 900; font-size: 16px; letter-spacing: 0.04em;
+    box-shadow: 0 6px 22px rgba(255,61,31,0.45);
+  }
+  .feature .cta .go { font-family: "Orbitron", sans-serif; transition: transform .2s ease; }
+  .feature:hover .cta .go { transform: translateX(4px); }
+  .pr-note { font-size: 11px; color: var(--dim); text-align: center; line-height: 1.6; margin: 0 4px; }
+
+  /* ===== その他の活動 (控えめ表示) ===== */
+  .others { margin-top: 40px; opacity: 0.82; }
+  .others-head {
+    text-align: center; font-size: 12px; color: var(--dim); letter-spacing: 0.1em;
+    padding-top: 18px; border-top: 1px solid var(--line);
+  }
+  .others .section-label { margin: 20px 4px 10px; font-size: 10px; }
+  .others .card { padding: 10px 14px; margin-bottom: 8px; gap: 12px; border-radius: 12px; }
+  .others .card .icon { flex-basis: 34px; height: 34px; font-size: 17px; border-radius: 9px; }
+  .others .card .title, .others .card .desc { display: block; }
+  .others .card .title { font-size: 13.5px; }
+  .others .card .desc { font-size: 11px; }
+  .others .card .arrow { font-size: 16px; }
+
   .footer {
     text-align: center; margin-top: 40px;
     font-family: "Orbitron", sans-serif;
@@ -307,7 +383,30 @@
     </div>
     <h1 class="name">時吉 悠介</h1>
     <p class="handle">TOKIYOSHI YUSUKE</p>
-    <p class="tagline">Developer / アプリ・Web・書籍をつくっています</p>
+    <p class="tagline">夜勤の本業をしながら FX を続ける兼業トレーダー / 個人開発者</p>
+
+    <!-- ====== PICK UP (アフィリエイト記事への導線。今後の記事もここに足す) ====== -->
+    <div class="pick-label">PICK UP</div>
+
+    <a class="feature" href="https://note.com/yusuke0410/n/n1023f3011d0b" rel="noopener">
+      <span class="tags">
+        <span class="tag">📈 FX をこれから始める人へ</span>
+        <span class="tag pr">PR</span>
+      </span>
+      <span class="f-title">FXの始め方は「口座開設の手順」から。兼業トレーダーが踏む5つの手順</span>
+      <span class="f-lead">口座開設は手続きでつまずくと時間を失う。申し込み前に知っておくべき流れを、兼業トレーダーの目線でまとめました。</span>
+      <ul class="points">
+        <li>申し込み〜初回取引までの 5 つの手順</li>
+        <li>本人確認・審査で止まらないためのポイント</li>
+        <li>口座選びは 3 つの基準に絞る</li>
+      </ul>
+      <span class="cta">記事を読む（無料）<span class="go">›</span></span>
+    </a>
+    <p class="pr-note">※ 記事内に広告（アフィリエイトリンク）を含みます</p>
+
+    <!-- ====== その他の活動 (控えめ表示) ====== -->
+    <section class="others">
+    <p class="others-head">その他の活動</p>
 
     <!-- ====== アプリ ====== -->
     <div class="section-label">APPS</div>
@@ -468,14 +567,7 @@
       <span class="arrow">›</span>
     </a>
 
-    <a class="card" href="https://note.com/yusuke0410/n/n1023f3011d0b" rel="noopener">
-      <span class="icon">📈</span>
-      <span class="body">
-        <span class="title">FXの始め方は「口座開設の手順」から。兼業トレーダーが踏む5つの手順</span>
-        <span class="desc">申し込みから初回取引までの 5 つの手順と口座選びの基準を解説（note）</span>
-      </span>
-      <span class="arrow">›</span>
-    </a>
+    </section>
 
     <!-- ====== SNS ====== -->
     <div class="socials">
